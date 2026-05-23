@@ -1,45 +1,62 @@
-# Transformer from Scratch: German to English Translation
+# Transformer from Scratch: German-to-English Translation
 
-This project implements a Transformer-based neural machine translation model from scratch using PyTorch. The model is trained to translate German sentences into English using a parallel German-English dataset.
+This project implements a Transformer-based neural machine translation model from scratch using Python and PyTorch. The model is trained on a German-English parallel dataset and learns to translate German sentences into English.
 
-The goal of this project is to understand the internal working of the Transformer architecture, including embeddings, positional encoding, multi-head attention, encoder-decoder layers, masking, training, and inference.
-
----
-
-## Project Overview
-
-This notebook builds a complete Transformer model without relying on high-level translation libraries. It covers the full machine learning pipeline:
-
-- Loading compressed German-English dataset files
-- Tokenizing source and target sentences
-- Building source and target vocabularies
-- Numericalizing text into token IDs
-- Creating padded mini-batches
-- Implementing positional encoding
-- Implementing multi-head self-attention
-- Building encoder and decoder layers
-- Training the Transformer model
-- Evaluating using loss and perplexity
-- Generating sample German-to-English translations
+The main goal of this project is to understand how the Transformer architecture works internally, including tokenization, vocabulary creation, embeddings, positional encoding, multi-head attention, encoder-decoder layers, masking, training, evaluation, and translation generation.
 
 ---
 
-## Dataset
+## Project Description
 
-The project uses German-English parallel text files stored in compressed `.gz` format.
+Transformers are one of the most important architectures in modern Natural Language Processing and Large Language Models. Instead of relying on recurrent networks, Transformers use attention mechanisms to understand relationships between tokens in a sequence.
 
-Expected dataset structure:
+In this project, a Transformer model is built step by step from scratch for a machine translation task. The source language is German, and the target language is English.
+
+The notebook demonstrates the full workflow of a sequence-to-sequence translation system:
+
+- Load compressed German-English dataset files
+- Tokenize German and English sentences
+- Build source and target vocabularies
+- Convert text into numerical token IDs
+- Create padded batches for training
+- Implement positional encoding
+- Implement multi-head attention
+- Build encoder and decoder layers
+- Train the Transformer model
+- Evaluate the model using loss and perplexity
+- Generate sample English translations from German input sentences
+
+---
+
+## Repository Structure
 
 ```text
-data/
-├── train.de.gz
-├── train.en.gz
-├── val.de.gz
-├── val.en.gz
-├── test_2016_flickr.de.gz
-└── test_2016_flickr.en.gz
+.
+├── README.md
+├── LICENSE
+├── transformer_code_from_scratch.ipynb
+└── data/
+    ├── train.de.gz
+    ├── train.en.gz
+    ├── val.de.gz
+    ├── val.en.gz
+    ├── test_2016_flickr.de.gz
+    └── test_2016_flickr.en.gz
+Dataset
+
+The dataset contains parallel German-English sentence pairs.
 
 The German files are used as the source language, and the English files are used as the target language.
+
+Expected dataset files:
+
+File	Description
+train.de.gz	German training sentences
+train.en.gz	English training sentences
+val.de.gz	German validation sentences
+val.en.gz	English validation sentences
+test_2016_flickr.de.gz	German test sentences
+test_2016_flickr.en.gz	English test sentences
 
 Dataset statistics used in this project:
 
@@ -49,17 +66,18 @@ Validation	1,014	1,014
 Test	1,000	1,000
 Model Architecture
 
-The implemented Transformer includes:
+The Transformer model includes the following components:
 
-Source and target word embeddings
+Token embeddings
 Sinusoidal positional encoding
-Multi-head attention
-Position-wise feed-forward network
+Multi-head self-attention
 Encoder layers
 Decoder layers
+Encoder-decoder attention
+Position-wise feed-forward networks
 Source padding mask
 Target causal mask
-Final linear projection to target vocabulary
+Final linear projection layer
 
 Model summary from the training run:
 
@@ -77,12 +95,10 @@ Epoch	Train Loss	Train PPL	Validation Loss	Validation PPL
 4	3.043	20.977	2.976	19.600
 5	2.874	17.702	2.820	16.773
 
-The validation loss and perplexity consistently decreased across epochs, showing that the model successfully learned meaningful translation patterns.
+The validation loss decreased from 3.731 to 2.820, and the validation perplexity decreased from 41.714 to 16.773. This shows that the model successfully learned meaningful translation patterns over the training process.
 
 Sample Translations
-
-Example 1:
-
+Example 1
 Source:
 ein mann mit einem orangefarbenen hut , der etwas anstarrt .
 
@@ -91,9 +107,7 @@ a man in an orange hat starring at something .
 
 Predicted:
 a man wearing an orange hat is talking to a orange hat .
-
-Example 2:
-
+Example 2
 Source:
 ein boston terrier läuft über saftig-grünes gras vor einem weißen zaun .
 
@@ -102,9 +116,7 @@ a boston terrier is running on lush green grass in front of a white fence .
 
 Predicted:
 a white and white dog runs across the grass in front of a white grass .
-
-Example 3:
-
+Example 3
 Source:
 ein mädchen in einem karateanzug bricht ein brett mit einem tritt .
 
@@ -114,7 +126,7 @@ a girl in karate uniform breaking a stick with a front kick .
 Predicted:
 a girl in a pink dress is eating a microphone .
 
-The model generates grammatically structured English sentences, but some translations remain semantically inaccurate. This is expected because the model was trained on a relatively small dataset and for only a few epochs.
+The model generates grammatically structured English sentences, but some predictions are still semantically inaccurate. This is expected because the dataset is relatively small and the model was trained for only 5 epochs.
 
 Technologies Used
 Python
@@ -138,14 +150,16 @@ For macOS/Linux:
 
 python -m venv env2
 source env2/bin/activate
-3. Install Dependencies
+3. Upgrade pip
+python -m pip install --upgrade pip
+4. Install Required Packages
 pip install torch numpy spacy tqdm
-4. Download spaCy Language Models
+5. Download spaCy Language Models
 python -m spacy download de_core_news_sm
 python -m spacy download en_core_web_sm
-5. Place Dataset Files
+6. Add the Dataset Files
 
-Create a data folder and place the .gz files inside it:
+Create a folder named data and place all .gz dataset files inside it.
 
 data/
 ├── train.de.gz
@@ -154,7 +168,7 @@ data/
 ├── val.en.gz
 ├── test_2016_flickr.de.gz
 └── test_2016_flickr.en.gz
-6. Run the Notebook
+7. Run the Notebook
 
 Open the notebook:
 
@@ -162,9 +176,9 @@ transformer_code_from_scratch.ipynb
 
 Then run all cells from top to bottom.
 
-Important Notes
+Local Path Configuration
 
-If you are running this locally, make sure the dataset paths are set like this:
+When running the notebook locally, the dataset paths should be configured like this:
 
 from pathlib import Path
 
@@ -183,39 +197,61 @@ Avoid using Google Colab-specific paths such as:
 
 /content/data/train.de.gz
 
-unless you are running the notebook inside Google Colab.
+unless the notebook is being run inside Google Colab.
 
-Key Learnings
+Key Concepts Covered
 
-This project helped demonstrate how the Transformer architecture works internally. Instead of using prebuilt translation APIs or high-level frameworks, the model was implemented step by step to understand:
+This project demonstrates the following Transformer and NLP concepts:
 
-How attention scores are computed
-How multi-head attention captures different relationships between tokens
-How positional encoding gives sequence order information
-How encoder-decoder attention supports translation
-How masking prevents the decoder from seeing future tokens
-How loss and perplexity measure translation model performance
+Tokenization
+Vocabulary building
+Word embeddings
+Positional encoding
+Self-attention
+Multi-head attention
+Encoder-decoder architecture
+Source masking
+Target causal masking
+Teacher forcing
+Sequence-to-sequence learning
+Loss and perplexity evaluation
+Greedy decoding for translation
+Results and Observations
+
+The model showed consistent improvement across all 5 epochs. Both training loss and validation loss decreased, showing that the model was learning from the dataset.
+
+However, the generated translations are not perfect. In several examples, the model produces fluent English sentences but does not always preserve the exact meaning of the German input. This is a common limitation when training a small Transformer model on a relatively limited dataset.
+
+The results show that the implementation is working correctly and that the model has learned useful translation patterns.
+
 Limitations
 
-The current model has some limitations:
+The current implementation has the following limitations:
 
 The dataset is relatively small for machine translation.
 The model was trained for only 5 epochs.
-Greedy decoding is used during translation.
-No BLEU score evaluation is currently included.
-Some generated translations are fluent but semantically incorrect.
+Greedy decoding is used for inference.
+BLEU score evaluation is not included.
+Some predictions are fluent but semantically incorrect.
+The model is built for educational understanding rather than production use.
+Future Improvements
 
-Future improvements could include:
+Possible improvements include:
 
-Training for more epochs
-Adding BLEU score evaluation
-Using beam search decoding
-Increasing dataset size
-Tuning model hyperparameters
-Saving and loading trained checkpoints
+Train the model for more epochs
+Add BLEU score evaluation
+Use beam search decoding instead of greedy decoding
+Save and load model checkpoints
+Tune hyperparameters
+Increase dataset size
+Add attention visualization
+Compare results with pretrained translation models
 Author
 
 Samir Sanyal
-
 Master's Student in Computer Science
 Indiana University Bloomington
+
+License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
